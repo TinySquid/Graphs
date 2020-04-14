@@ -6,25 +6,50 @@ from graph import Graph
 
 
 def earliest_ancestor(ancestors, starting_node):
+    """
+    Part 1:
+    Go through provided ancestors and build a graph
+    Add vertices
+    Add edges
+    ---
+    Part 2:
+    Return -1 if starting_node has no parent nodes
+    else
+    go through starting_node's ancestry until the earliest ancestor
+    is reached
+    Return that node
+    """
     graph = Graph()
 
-    for ancestor in ancestors:
-        """
-        Go through provided ancestors and build a graph
-        Add vertices
-        Add edges
-        """
+    for (parent, child) in ancestors:
         # Add vertices
-        if not graph.vertex_exists(ancestor[0]):
-            graph.add_vertex(ancestor[0])
-        if not graph.vertex_exists(ancestor[1]):
-            graph.add_vertex(ancestor[1])
+        if not graph.vertex_exists(parent):
+            graph.add_vertex(parent)
+        if not graph.vertex_exists(child):
+            graph.add_vertex(child)
 
         # Add edges (flipped)
-        graph.add_edge(ancestor[1], ancestor[0])
+        graph.add_edge(child, parent)
+
+    # Initial ancestors of starting node
+    node_ancestors = graph.get_neighbors(starting_node)
+
+    if len(node_ancestors) == 0:
+        # -1 if node has no parents
+        return -1
+
+    # Setup
+    path = []
+    current_node = starting_node
+
+    while len(graph.get_neighbors(current_node)) > 0:
+        node_ancestors = graph.get_neighbors(current_node)
+        ancestor = min(node_ancestors)
+        current_node = ancestor
+        path.append(ancestor)
+
     # Return earliest connected vertex from starting_node
-    # -1 if node has no parents
-    return graph.dft_ancestor(starting_node)
+    return path[-1]
 
 
 # DEBUG

@@ -109,37 +109,6 @@ class Graph:
             # Do work on vertex
             print(current_vertex)
 
-    def dft_ancestor(self, starting_vertex):
-        """
-        Find earliest ancestor to starting_vertex
-        """
-
-        if len(self.get_neighbors(starting_vertex)) == 0:
-            # No parents to starting_vertex
-            return -1
-
-        # Setup
-        path = []
-        stack = Stack()
-        # Put root on top of stack
-        stack.push(starting_vertex)
-
-        while stack.size() > 0:
-            # Pointer to current vertex
-            current_vertex = stack.pop()
-
-            # for vertex in self.get_neighbors(current_vertex):
-            neighbors = self.get_neighbors(current_vertex)
-            if len(neighbors) > 0:
-                vertex = min(self.get_neighbors(current_vertex))
-                # if vertex not in visited:
-                # Push vertex
-                stack.push(vertex)
-                # Mark visited
-                path.append(vertex)
-            else:
-                return path[-1]
-
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
