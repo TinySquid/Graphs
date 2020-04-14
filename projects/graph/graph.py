@@ -21,13 +21,30 @@ class Graph:
         """
         Add a directed edge to the graph.
         """
-        self.vertices[v1].add(v2)
+        # Check if vertices exist
+        if self.vertex_exists(v1) and self.vertex_exists(v2):
+            self.vertices[v1].add(v2)
+        else:
+            print("Could not add edge: Vertex not found")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        return self.vertices[vertex_id]
+        # Check if vertex_id exists in graph
+        if self.vertex_exists(vertex_id):
+            return self.vertices[vertex_id]
+        else:
+            return None
+
+    def vertex_exists(self, vertex_id):
+        """
+        Return validity of vertex_id in graph instance
+        """
+        if vertex_id in self.vertices:
+            return True
+        else:
+            return False
 
     def bft(self, starting_vertex):
         """
@@ -91,6 +108,37 @@ class Graph:
 
             # Do work on vertex
             print(current_vertex)
+
+    def dft_ancestor(self, starting_vertex):
+        """
+        Find earliest ancestor to starting_vertex
+        """
+
+        if len(self.get_neighbors(starting_vertex)) == 0:
+            # No parents to starting_vertex
+            return -1
+
+        # Setup
+        path = []
+        stack = Stack()
+        # Put root on top of stack
+        stack.push(starting_vertex)
+
+        while stack.size() > 0:
+            # Pointer to current vertex
+            current_vertex = stack.pop()
+
+            # for vertex in self.get_neighbors(current_vertex):
+            neighbors = self.get_neighbors(current_vertex)
+            if len(neighbors) > 0:
+                vertex = min(self.get_neighbors(current_vertex))
+                # if vertex not in visited:
+                # Push vertex
+                stack.push(vertex)
+                # Mark visited
+                path.append(vertex)
+            else:
+                return path[-1]
 
     def dft_recursive(self, starting_vertex):
         """
