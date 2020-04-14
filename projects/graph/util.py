@@ -1,5 +1,5 @@
 
-# Note: This Queue class is sub-optimal. Why?
+# Note: This Queue class is sub-optimal. Why? - Because it's not a linked list
 class Queue():
     def __init__(self):
         self.queue = []
