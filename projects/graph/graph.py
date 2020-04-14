@@ -41,28 +41,24 @@ class Graph:
         # Mark current vertex and children as visited
         # Repeat
 
-        visited = {}
+        visited = set([starting_vertex])
         queue = Queue()
 
         # Enqueue starting vertex (root of traversal)
         queue.enqueue(starting_vertex)
-        # Mark as visited
-        visited[starting_vertex] = True
 
         # Continue until queue is empty (meaning the whole graph has been traversed)
         while queue.size() != 0:
             # Peek queue head
-            current_vertex = queue.queue[0]
+            current_vertex = queue.dequeue()
             # Enqueue connected vertices
             for vertex in self.vertices[current_vertex]:
-                if not visited.get(vertex):
+                if vertex not in visited:
                     # Add to queue if not already visited
                     queue.enqueue(vertex)
                     # Set as visited to prevent further enqueueing of same vertex
-                    visited[vertex] = True
+                    visited.add(vertex)
 
-            # Dequeue current vertex
-            queue.dequeue()
             # Do work on current vertex
             print(current_vertex)
 
@@ -77,23 +73,21 @@ class Graph:
         # Repeat
 
         # Setup
-        visited = {}
+        visited = set([starting_vertex])
         stack = Stack()
         # Put root on top of stack
         stack.push(starting_vertex)
-        # Mark visited
-        visited[starting_vertex] = True
 
         while stack.size() > 0:
             # Pointer to current vertex
             current_vertex = stack.pop()
 
             for vertex in self.vertices[current_vertex]:
-                if not visited.get(vertex):
+                if vertex not in visited:
                     # Push vertex
                     stack.push(vertex)
                     # Mark visited
-                    visited[vertex] = True
+                    visited.add(vertex)
 
             # Do work on vertex
             print(current_vertex)
@@ -109,7 +103,7 @@ class Graph:
         # If vertex visited, return
 
         # Setup
-        visited = {starting_vertex: True}
+        visited = set([starting_vertex])
 
         # Recursion helper
         def dive(current_vertex, visited):
@@ -118,9 +112,9 @@ class Graph:
 
             # Go thru neighbors and dive if not visited
             for vertex in self.get_neighbors(current_vertex):
-                if not visited.get(vertex):
+                if vertex not in visited:
                     # Mark visited
-                    visited[vertex] = True
+                    visited.add(vertex)
                     # DIVE!!!
                     dive(vertex, visited)
 
