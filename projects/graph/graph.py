@@ -105,7 +105,27 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # Base case
+        # If vertex visited, return
+
+        # Setup
+        visited = {starting_vertex: True}
+
+        # Recursion helper
+        def dive(current_vertex, visited):
+            # Do work on vertex
+            print(current_vertex)
+
+            # Go thru neighbors and dive if not visited
+            for vertex in self.get_neighbors(current_vertex):
+                if not visited.get(vertex):
+                    # Mark visited
+                    visited[vertex] = True
+                    # DIVE!!!
+                    dive(vertex, visited)
+
+        # Start recursion
+        dive(starting_vertex, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -176,7 +196,7 @@ if __name__ == "__main__":
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     """
-    graph.bft(1)
+    # graph.bft(1)
 
     """
     Valid DFT paths:
@@ -185,7 +205,7 @@ if __name__ == "__main__":
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     """
-    graph.dft(1)
+    # graph.dft(1)
     graph.dft_recursive(1)
 
     """
