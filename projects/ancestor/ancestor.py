@@ -39,17 +39,18 @@ def earliest_ancestor(ancestors, starting_node):
         return -1
 
     # Setup
-    path = []
     current_node = starting_node
 
+    # As long as we have ancestors
     while len(graph.get_neighbors(current_node)) > 0:
         node_ancestors = graph.get_neighbors(current_node)
+        # Get the ancestor with the smaller ID value
         ancestor = min(node_ancestors)
+        # Move current_node pointer to selected ancestor
         current_node = ancestor
-        path.append(ancestor)
 
-    # Return earliest connected vertex from starting_node
-    return path[-1]
+    # Return earliest connected ancestor from starting_node
+    return current_node
 
 
 # DEBUG
