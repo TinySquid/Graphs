@@ -137,44 +137,29 @@ class SocialGraph:
         extended network with the shortest friendship path between them.
         """
 
-        # Friends connected with user_id
-        visited = [user_id]
-        # Paths from connections to user_id
-        paths = {}
-
-        """
-        PART 1
-        Preform a BFT from initial user_id
-        Append all connections to 'visited' list
-        """
-
-        # Setup queue with initial user
         queue = Queue()
+        queue.enqueue([user_id])
 
-        queue.enqueue(user_id)
+        visited = {}
 
-        # While there are still connections to traverse...
         while queue.size() > 0:
-            # Move current_user pointer to next in queue
-            current_user = queue.dequeue()
+            path = queue.dequeue()
 
-            # Add friends to queue and visited if conditions match
-            for friend in self.get_friends(current_user):
-                if friend not in visited:
-                    queue.enqueue(friend)
-                    visited.append(friend)
+            # Get last node
+            vertex = path[-1]
 
-        """
-        PART 2
-        Build paths from previously discovered connections
-        """
-        for user in visited:
-            path = self.bfs(user_id, user)
-            if path:
-                paths[user] = path
+            # Do work if not already in visited dict
+            if vertex not in visited:
+                visited[vertex] = path
 
-        # Return paths
-        return paths
+                for friend in self.get_friends(vertex):
+                    # Build path for each friend at current path
+                    new_path = path.copy()
+                    new_path.append(friend)
+                    # Enqueue this path
+                    queue.enqueue(new_path)
+
+        return visited
 
 
 if __name__ == "__main__":
